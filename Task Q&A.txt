@@ -1,0 +1,416 @@
+1) 	Using COUNT, get the number of cities in the USA.
+
+SELECT COUNT(CountryCode) FROM city
+WHERE CountryCode='USA';
++--------------------+
+| COUNT(CountryCode) |
++--------------------+
+|                274 |
++--------------------+
+1 row in set (0.01 sec
+
+2)	Find out the population and life expectancy for people in Argentina?
+
+SELECT Population,LifeExpectancy FROM country
+WHERE Name='Argentina';
++------------+----------------+
+| Population | LifeExpectancy |
++------------+----------------+
+|   37032000 |           75.1 |
++------------+----------------+
+
+
+3)	Using IS NOT NULL, ORDER BY, and LIMIT, which country has the highest life expectancy?
+
+SELECT Name, LifeExpectancy FROM country
+WHERE LifeExpectancy IS NOT NULL
+ORDER BY LifeExpectancy DESC LIMIT 10;
++-------------+----------------+
+| Name        | LifeExpectancy |
++-------------+----------------+
+| Andorra     |           83.5 |
+| Macao       |           81.6 |
+| San Marino  |           81.1 |
+| Japan       |           80.7 |
+| Singapore   |           80.1 |
+| Australia   |           79.8 |
+| Switzerland |           79.6 |
+| Sweden      |           79.6 |
+| Hong Kong   |           79.5 |
+| Canada      |           79.4 |
++-------------+----------------+
+10 rows in set
+
+4)	Using JOIN ... ON, find the capital city of Spain.
+
+SELECT country.name, city.name
+FROM city
+inner join country on city.id = country.capital
+WHERE country.name = "Spain";
++-------+--------+
+| name  | name   |
++-------+--------+
+| Spain | Madrid |
++-------+--------+
+1 row in set
+
+
+5)	Using JOIN ... ON, list all the languages spoken in the Southeast Asia region?
+
+SELECT country.region, countrylanguage.language
+FROM country
+INNER JOIN countrylanguage ON country.code = countrylanguage.countrycode
+WHERE country.region='Southeast Asia';
+
+| Southeast Asia | Kayah         |
+| Southeast Asia | Mon           |
+| Southeast Asia | Rakhine       |
+| Southeast Asia | Shan          |
+| Southeast Asia | Chinese       |
+| Southeast Asia | Dusun         |
+| Southeast Asia | English       |
+| Southeast Asia | Iban          |
+| Southeast Asia | Malay         |
+| Southeast Asia | Tamil         |
+| Southeast Asia | Bicol         |
+| Southeast Asia | Cebuano       |
+| Southeast Asia | Hiligaynon    |
+| Southeast Asia | Ilocano       |
+| Southeast Asia | Maguindanao   |
+| Southeast Asia | Maranao       |
+| Southeast Asia | Pampango      |
+| Southeast Asia | Pangasinan    |
+| Southeast Asia | Pilipino      |
+| Southeast Asia | Waray-waray   |
+| Southeast Asia | Chinese       |
+| Southeast Asia | Malay         |
+| Southeast Asia | Tamil         |
+| Southeast Asia | Chinese       |
+| Southeast Asia | Khmer         |
+| Southeast Asia | Kuy           |
+| Southeast Asia | Lao           |
+| Southeast Asia | Malay         |
+| Southeast Asia | Thai          |
+| Southeast Asia | Portuguese    |
+| Southeast Asia | Sunda         |
+| Southeast Asia | Chinese       |
+| Southeast Asia | Khmer         |
+| Southeast Asia | Man           |
+| Southeast Asia | Miao          |
+| Southeast Asia | Muong         |
+| Southeast Asia | Nung          |
+| Southeast Asia | Thai          |
+| Southeast Asia | Tho           |
+| Southeast Asia | Vietnamese    |
++----------------+---------------+
+65 rows in set
+
+6)	Using a single query, list 25 cities around the world that start with the letter F?
+
+SELECT Name FROM city
+WHERE city.name LIKE 'F%'
+LIMIT 25;
+
++---------------------------+
+| Name                      |
++---------------------------+
+| Fagatogo                  |
+| Florencio Varela          |
+| Formosa                   |
+| Francistown               |
+| Fortaleza                 |
+| Feira de Santana          |
+| Franca                    |
+| Florianópolis             |
+| Foz do Iguaçu             |
+| Ferraz de Vasconcelos     |
+| Francisco Morato          |
+| Franco da Rocha           |
+| Fuenlabrada               |
+| Faridabad                 |
+| Firozabad                 |
+| Farrukhabad-cum-Fatehgarh |
+| Faizabad                  |
+| Fatehpur                  |
+| Firenze                   |
+| Foggia                    |
+| Ferrara                   |
+| Forlì                     |
+| Fukuoka                   |
+| Funabashi                 |
+| Fukuyama                  |
++---------------------------+
+25 rows in set
+
+7)	Using COUNT and JOIN ... ON, get the number of cities in China?
+
+SELECT COUNT(city.name)
+FROM city
+INNER JOIN country on country.code=city.countrycode
+WHERE country.name='China';
+
++------------------+
+| COUNT(city.name) |
++------------------+
+|              363 |
++------------------+
+1 row in set
+
+8)	Using IS NOT NULL, ORDER BY, and LIMIT, which country has the lowest population? Disgard non-zero populations?
+
+SELECT Name, Population
+FROM country
+WHERE Population > 0
+ORDER BY Population ASC
+LIMIT 1;    
+
++----------+------------+
+| Name     | Population |
++----------+------------+
+| Pitcairn |         50 |
++----------+------------+
+1 row in set
+
+9)	Using aggregate functions, return the number of countries the database contains?
+
+SELECT COUNT(Name) FROM country;
+
++-------------+
+| COUNT(Name) |
++-------------+
+|         239 |
++-------------+
+1 row in set
+
+10)	What are the top ten largest countries by area?
+
+SELECT Name, SurfaceArea FROM country
+ORDER BY SurfaceArea DESC LIMIT 10; 
+
++--------------------+-------------+
+| Name               | SurfaceArea |
++--------------------+-------------+
+| Russian Federation | 17075400.00 |
+| Antarctica         | 13120000.00 |
+| Canada             |  9970610.00 |
+| China              |  9572900.00 |
+| United States      |  9363520.00 |
+| Brazil             |  8547403.00 |
+| Australia          |  7741220.00 |
+| India              |  3287263.00 |
+| Argentina          |  2780400.00 |
+| Kazakstan          |  2724900.00 |
++--------------------+-------------+
+10 rows in set
+
+11)	List the five largest cities by population in Japan?
+
+SELECT city.name, city.population
+FROM city
+INNER JOIN country ON city.countrycode = country.code
+WHERE country.code = 'JPN'
+ORDER BY city.population DESC
+LIMIT 5;
+ 
++---------------------+------------+
+| name                | population |
++---------------------+------------+
+| Tokyo               |    7980230 |
+| Jokohama [Yokohama] |    3339594 |
+| Osaka               |    2595674 |
+| Nagoya              |    2154376 |
+| Sapporo             |    1790886 |
++---------------------+------------+
+5 rows in set
+
+12)	List the names and country codes of every country with Elizabeth II as its Head of State. You will need to fix the mistake first?
+
+UPDATE country
+SET Headofstate = 'Elizabeth II'
+WHERE Headofstate = 'Elisabeth II';
+SELECT name, headofstate
+FROM country
+WHERE headofstate = 'Elizabeth II'
+
++----------------------------------------------+--------------+
+| name                                         | headofstate  |
++----------------------------------------------+--------------+
+| Anguilla                                     | Elizabeth II |
+| Antigua and Barbuda                          | Elizabeth II |
+| Australia                                    | Elizabeth II |
+| Bahamas                                      | Elizabeth II |
+| Belize                                       | Elizabeth II |
+| Bermuda                                      | Elizabeth II |
+| Barbados                                     | Elizabeth II |
+| Canada                                       | Elizabeth II |
+| Cocos (Keeling) Islands                      | Elizabeth II |
+| Cook Islands                                 | Elizabeth II |
+| Christmas Island                             | Elizabeth II |
+| Cayman Islands                               | Elizabeth II |
+| Falkland Islands                             | Elizabeth II |
+| United Kingdom                               | Elizabeth II |
+| Gibraltar                                    | Elizabeth II |
+| Grenada                                      | Elizabeth II |
+| Heard Island and McDonald Islands            | Elizabeth II |
+| British Indian Ocean Territory               | Elizabeth II |
+| Jamaica                                      | Elizabeth II |
+| Saint Kitts and Nevis                        | Elizabeth II |
+| Saint Lucia                                  | Elizabeth II |
+| Montserrat                                   | Elizabeth II |
+| Norfolk Island                               | Elizabeth II |
+| Niue                                         | Elizabeth II |
+| New Zealand                                  | Elizabeth II |
+| Pitcairn                                     | Elizabeth II |
+| Papua New Guinea                             | Elizabeth II |
+| South Georgia and the South Sandwich Islands | Elizabeth II |
+| Saint Helena                                 | Elizabeth II |
+| Solomon Islands                              | Elizabeth II |
+| Turks and Caicos Islands                     | Elizabeth II |
+| Tokelau                                      | Elizabeth II |
+| Tuvalu                                       | Elizabeth II |
+| Saint Vincent and the Grenadines             | Elizabeth II |
+| Virgin Islands, British                      | Elizabeth II |
++----------------------------------------------+--------------+
+35 rows in set 
+ 
+
+
+13)	List the top ten countries with the smallest population-to-area ratio. Discard any countries with a ratio of 0.
+
+SELECT name,(Population/SurfaceArea)
+FROM country
+WHERE Population IS NOT NULL AND Population>0
+ORDER BY (Population/SurfaceArea) ASC
+LIMIT 5;
+
++------------------------+--------------------------+
+| name                   | (Population/SurfaceArea) |
++------------------------+--------------------------+
+| Greenland              |                 0.025853 |
+| Svalbard and Jan Mayen |                 0.051264 |
+| Falkland Islands       |                 0.164298 |
+| Pitcairn               |                 1.020408 |
+| Western Sahara         |                 1.101504 |
++------------------------+--------------------------+
+
+
+14)	List every unique world language.
+
+SELECT DISTINCT(Language)
+FROM countrylanguage;
+
+457 rows in set
+
+15)	List the names and GNP of the world's top 10 richest countries?
+
+SELECT name, GNP 
+FROM country
+ORDER BY country.GNP DESC 
+LIMIT 10;
+
++----------------+------------+
+| name           | GNP        |
++----------------+------------+
+| United States  | 8510700.00 |
+| Japan          | 3787042.00 |
+| Germany        | 2133367.00 |
+| France         | 1424285.00 |
+| United Kingdom | 1378330.00 |
+| Italy          | 1161755.00 |
+| China          |  982268.00 |
+| Brazil         |  776739.00 |
+| Canada         |  598862.00 |
+| Spain          |  553233.00 |
++----------------+------------+
+10 rows in set
+
+16)	List the names of, and number of languages spoken by, the top ten most multilingual countries?
+
+
+SELECT country.name, COUNT(countrylanguage.language) AS languageSpoken 
+FROM countrylanguage
+INNER JOIN country on countrylanguage.countrycode = country.code
+GROUP BY country.name
+ORDER BY languageSpoken DESC
+LIMIT 10;
+
++---------------------------------------+----------------+
+| name                                  | languageSpoken |
++---------------------------------------+----------------+
+| Russian Federation                    |             12 |
+| United States                         |             12 |
+| Canada                                |             12 |
+| China                                 |             12 |
+| India                                 |             12 |
+| Tanzania                              |             11 |
+| South Africa                          |             11 |
+| Uganda                                |             10 |
+| Congo, The Democratic Republic of the |             10 |
+| Iran                                  |             10 |
++---------------------------------------+----------------+
+10 rows in set
+
+17)	List every country where over 50% of its population can speak German?
+
+SELECT country.name
+FROM country
+INNER JOIN countrylanguage ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.language = 'German' AND countrylanguage.percentage > 50; 
+
++---------------+
+| name          |
++---------------+
+| Austria       |
+| Switzerland   |
+| Germany       |
+| Liechtenstein |
++---------------+
+4 rows in set
+
+
+18)	Which country has the worst life expectancy? Discard zero or null values?
+
+SELECT name, lifeExpectancy 
+FROM country
+WHERE LifeExpectancy IS NOT NULL AND LifeExpectancy != 0
+ORDER BY lifeExpectancy ASC
+LIMIT 1; 
+
++--------+----------------+
+| name   | lifeExpectancy |
++--------+----------------+
+| Zambia |           37.2 |
++--------+----------------+
+1 row in set
+
+19)	List the top three most common government forms?
+
+SELECT GoverNmentform, COUNT(Governmentform) AS TimesUsed
+FROM country
+GROUP BY Governmentform
+ORDER BY TimesUsed DESC
+LIMIT 3;
+
++-------------------------+-----------+
+| GoverNmentform          | TimesUsed |
++-------------------------+-----------+
+| Republic                |       122 |
+| Constitutional Monarchy |        29 |
+| Federal Republic        |        15 |
++-------------------------+-----------+
+3 rows in set
+
+
+20)	How many countries have gained independence since records began?
+
+SELECT COUNT(IndepYear)
+FROM country
+WHERE IndepYear IS NOT NULL AND IndepYear !=0; 
+
++------------------+
+| COUNT(IndepYear) |
++------------------+
+|              192 |
++------------------+
+1 row in set  
+
